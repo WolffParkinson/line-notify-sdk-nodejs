@@ -2,13 +2,15 @@
   "name": "line-notify-sdk",
   "version": "2.0.1",
   "description": "🔩 A third party node.js line notify sdk.",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "dev": "nodemon",
     "lint": "eslint --fix *.js",
     "server": "nodemon example/server.js",
     "notify": "nodemon example/notify.js"
@@ -29,6 +31,7 @@
     "form-data": "^4.0.0"
   },
   "devDependencies": {
+    "@types/node": "^16.11.9",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "express": "^4.17.1"
