@@ -99,7 +99,7 @@ export class notifySDK {
      *                              false: The user receives a push notification when the message is sent (unless they have disabled push notification in LINE and/or their device).
      * @returns NotifyResponse
      */
-    async notify(token:string,message:string, imageThumbnailURL:string, imageFullsizeURL:string, stickerPackageId?:number, stickerId?:number, notificationDisabled:boolean=false) {
+    async notify(token:string,message:string, imageThumbnailURL?:string, imageFullsizeURL?:string, stickerPackageId?:number, stickerId?:number, notificationDisabled:boolean=false) {
 
         if (!token) throw new LineNotifyError('Token is required for sending notification')
         if (!message) throw new LineNotifyError('Message is required for sending notification')
