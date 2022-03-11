@@ -1,9 +1,9 @@
-require('dotenv').config();
+require('dotenv').config('example.env');
 const notifySDK = require('../index');
 const notify = new notifySDK();
 
-( async () => {
-    
+(async () => {
+
     const token = process.env.TOKEN
 
     // Get Token Status
@@ -16,25 +16,25 @@ const notify = new notifySDK();
     console.log(token, status)
     //{ status: 200, message: 'ok', targetType: 'USER', target: 'YOUR-USER-NAME' }
 
-    
+
     // Send Text Message
     notify.notify(token, 'hello')
-    
+
         .then((result) => {
             console.log(result)
         })
-        
-        .catch((e)=>{
+
+        .catch((e) => {
             console.log(e)
         })
 
     // Send Sticker
-    notify.notify(token, 'Here is my sticker', null,null, 1, 1)
+    notify.notify(token, 'Here is my sticker', null, null, 1, 1)
         .then((result) => {
             console.log(result)
         })
-        
-        .catch((e)=>{
+
+        .catch((e) => {
             console.log(e)
         })
 
@@ -43,8 +43,8 @@ const notify = new notifySDK();
         .then((result) => {
             console.log(result)
         })
-        
-        .catch((e)=>{
+
+        .catch((e) => {
             console.log(e)
         })
 

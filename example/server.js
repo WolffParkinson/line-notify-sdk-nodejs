@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config('example.env')
 const express = require('express')
 const app = express()
 const notifySDK = require('../index');
@@ -7,12 +7,12 @@ const notify = new notifySDK()
 app.get('/cb', async (req, res) => {
     const clientCode = req.query.code
     res.end()
-    console.log('Code : ',clientCode)
+    console.log('Code : ', clientCode)
 
     let token;
     try {
         token = await notify.getToken(clientCode)
-        console.log('Token : ',token)
+        console.log('Token : ', token)
     } catch (error) {
         console.log(error)
     }
@@ -25,4 +25,4 @@ app.get('/', (req, res) => {
 })
 
 const port = 3000
-app.listen(port, () => console.log(`Please register LINE Nofity on : http://localhost:${port}`))
+app.listen(port, () => console.log(`Please register LINE Notity on : http://localhost:${port}`))

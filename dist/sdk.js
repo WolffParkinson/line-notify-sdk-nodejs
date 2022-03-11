@@ -51,13 +51,8 @@ class notifySDK {
             form.append('redirect_uri', this.redirectURI);
             form.append('client_id', this.clientId);
             form.append('client_secret', this.clientSecret);
-            try {
-                const res = yield axios_1.default.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() });
-                return res.data.access_token;
-            }
-            catch (e) {
-                throw new error_1.LineNotifyError(e.toJSON());
-            }
+            const res = yield axios_1.default.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() });
+            return res.data.access_token;
         });
     }
     /**
@@ -67,13 +62,8 @@ class notifySDK {
      */
     getStatus(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const res = yield axios_1.default.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } });
-                return res.data;
-            }
-            catch (e) {
-                throw new error_1.LineNotifyError(e.toJSON());
-            }
+            const res = yield axios_1.default.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } });
+            return res.data;
         });
     }
     ;
@@ -84,15 +74,10 @@ class notifySDK {
      */
     revoke(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const res = yield axios_1.default.post(`${this.apiBaseURI}/revoke`, null, {
-                    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
-                });
-                return res.data;
-            }
-            catch (e) {
-                throw new error_1.LineNotifyError(e.toJSON());
-            }
+            const res = yield axios_1.default.post(`${this.apiBaseURI}/revoke`, null, {
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+            return res.data;
         });
     }
     ;
@@ -130,13 +115,8 @@ class notifySDK {
                 form.append('notificationDisabled', 'true');
             let headers = form.getHeaders();
             headers['Authorization'] = `Bearer ${token}`;
-            try {
-                const res = yield axios_1.default.post(`${this.apiBaseURI}/notify`, form, { headers: headers });
-                return res.data;
-            }
-            catch (e) {
-                throw new error_1.LineNotifyError(e.toJSON());
-            }
+            const res = yield axios_1.default.post(`${this.apiBaseURI}/notify`, form, { headers: headers });
+            return res.data;
         });
     }
     ;
