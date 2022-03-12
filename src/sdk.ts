@@ -21,6 +21,16 @@ export class notifySDK {
         }
     }
 
+    handleError(error: any) {
+        if (error.response) {
+            throw new LineNotifyError(error.response.data.message);
+        } else if (error.request) {
+            throw new LineNotifyError('No response received from LINE servers')
+        } else {
+            throw new LineNotifyError(error.message)
+        }
+    }
+
     generateOauthURL(state: string, formPost: boolean = false) {
         let oauthURL = this.oauthBaseURI + '/authorize?' +
             'response_type=code' +
@@ -47,8 +57,12 @@ export class notifySDK {
         form.append('client_id', this.clientId)
         form.append('client_secret', this.clientSecret)
 
-        const res = await axios.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() })
-        return (res.data as any).access_token as string
+        try {
+            const res = await axios.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() })
+            return (res.data as any).access_token as string
+        } catch (error) {
+            this.handleError(error)
+        }
     }
 
     /**
@@ -57,10 +71,12 @@ export class notifySDK {
      * @returns status
      */
     async getStatus(token: string) {
-
-        const res = await axios.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } })
-        return res.data as TokenStatus
-
+        try {
+            const res = await axios.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } })
+            return res.data as TokenStatus
+        } catch (error) {
+            this.handleError(error)
+        }
     };
 
     /**
@@ -69,10 +85,14 @@ export class notifySDK {
      * @returns confirmation status
      */
     async revoke(token: string) {
-        const res = await axios.post(`${this.apiBaseURI}/revoke`, null, {
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        return res.data
+        try {
+            const res = await axios.post(`${this.apiBaseURI}/revoke`, null, {
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            return res.data
+        } catch (error) {
+            this.handleError(error)
+        }
     };
 
     /**
@@ -104,8 +124,12 @@ export class notifySDK {
         let headers = form.getHeaders()
         headers['Authorization'] = `Bearer ${token}`
 
-        const res = await axios.post(`${this.apiBaseURI}/notify`, form, { headers: headers })
-        return res.data as unknown as NotifyResponse
+        try {
+            const res = await axios.post(`${this.apiBaseURI}/notify`, form, { headers: headers })
+            return res.data as unknown as NotifyResponse
+        } catch (error) {
+            this.handleError(error)
+        }
     };
 
 
