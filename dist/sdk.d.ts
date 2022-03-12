@@ -6,25 +6,26 @@ export declare class notifySDK {
     oauthBaseURI: string;
     apiBaseURI: string;
     constructor(options?: SDKOptions);
+    handleError(error: any): void;
     generateOauthURL(state: string, formPost?: boolean): string;
     /**
      * GET: Token from client code
      * @param clientCode Code from authorization flow
      * @returns Token
      */
-    getToken(clientCode: string): Promise<string>;
+    getToken(clientCode: string): Promise<string | undefined>;
     /**
      * GET - STATUS of the LINE Notify token
      * @param token Token to fetch status
      * @returns status
      */
-    getStatus(token: string): Promise<TokenStatus>;
+    getStatus(token: string): Promise<TokenStatus | undefined>;
     /**
      * POST - REVOKE token
      * @param token Token to revoke
      * @returns confirmation status
      */
-    revoke(token: string): Promise<null>;
+    revoke(token: string): Promise<null | undefined>;
     /**
      * POST - Notify Message
      * @param token Token
@@ -37,5 +38,5 @@ export declare class notifySDK {
      *                              false: The user receives a push notification when the message is sent (unless they have disabled push notification in LINE and/or their device).
      * @returns NotifyResponse
      */
-    notify(token: string, message: string, imageThumbnailURL?: string, imageFullsizeURL?: string, stickerPackageId?: number, stickerId?: number, notificationDisabled?: boolean): Promise<NotifyResponse>;
+    notify(token: string, message: string, imageThumbnailURL?: string, imageFullsizeURL?: string, stickerPackageId?: number, stickerId?: number, notificationDisabled?: boolean): Promise<NotifyResponse | undefined>;
 }

@@ -27,6 +27,17 @@ class notifySDK {
             throw new error_1.LineNotifyError('Credentials undefined');
         }
     }
+    handleError(error) {
+        if (error.response) {
+            throw new error_1.LineNotifyError(error.response.data.message);
+        }
+        else if (error.request) {
+            throw new error_1.LineNotifyError('No response received from LINE servers');
+        }
+        else {
+            throw new error_1.LineNotifyError(error.message);
+        }
+    }
     generateOauthURL(state, formPost = false) {
         let oauthURL = this.oauthBaseURI + '/authorize?' +
             'response_type=code' +
@@ -51,8 +62,13 @@ class notifySDK {
             form.append('redirect_uri', this.redirectURI);
             form.append('client_id', this.clientId);
             form.append('client_secret', this.clientSecret);
-            const res = yield axios_1.default.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() });
-            return res.data.access_token;
+            try {
+                const res = yield axios_1.default.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() });
+                return res.data.access_token;
+            }
+            catch (error) {
+                this.handleError(error);
+            }
         });
     }
     /**
@@ -62,8 +78,13 @@ class notifySDK {
      */
     getStatus(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield axios_1.default.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } });
-            return res.data;
+            try {
+                const res = yield axios_1.default.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } });
+                return res.data;
+            }
+            catch (error) {
+                this.handleError(error);
+            }
         });
     }
     ;
@@ -74,10 +95,15 @@ class notifySDK {
      */
     revoke(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield axios_1.default.post(`${this.apiBaseURI}/revoke`, null, {
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
-            });
-            return res.data;
+            try {
+                const res = yield axios_1.default.post(`${this.apiBaseURI}/revoke`, null, {
+                    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                return res.data;
+            }
+            catch (error) {
+                this.handleError(error);
+            }
         });
     }
     ;
@@ -115,8 +141,13 @@ class notifySDK {
                 form.append('notificationDisabled', 'true');
             let headers = form.getHeaders();
             headers['Authorization'] = `Bearer ${token}`;
-            const res = yield axios_1.default.post(`${this.apiBaseURI}/notify`, form, { headers: headers });
-            return res.data;
+            try {
+                const res = yield axios_1.default.post(`${this.apiBaseURI}/notify`, form, { headers: headers });
+                return res.data;
+            }
+            catch (error) {
+                this.handleError(error);
+            }
         });
     }
     ;
