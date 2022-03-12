@@ -21,13 +21,13 @@ export class notifySDK {
         }
     }
 
-    handleError(error: any) {
+    errorMessage(error: any) {
         if (error.response) {
-            throw new LineNotifyError(error.response.data.message);
+            return error.response.data.message;
         } else if (error.request) {
-            throw new LineNotifyError('No response received from LINE servers')
+            return 'No response received from LINE servers';
         } else {
-            throw new LineNotifyError(error.message)
+            return error.message;
         }
     }
 
@@ -61,7 +61,7 @@ export class notifySDK {
             const res = await axios.post(`${this.oauthBaseURI}/token`, form, { headers: form.getHeaders() })
             return (res.data as any).access_token as string
         } catch (error) {
-            this.handleError(error)
+            throw new LineNotifyError(this.errorMessage(error))
         }
     }
 
@@ -75,7 +75,7 @@ export class notifySDK {
             const res = await axios.get(`${this.apiBaseURI}/status`, { headers: { Authorization: `Bearer ${token}` } })
             return res.data as TokenStatus
         } catch (error) {
-            this.handleError(error)
+            throw new LineNotifyError(this.errorMessage(error))
         }
     };
 
@@ -91,7 +91,7 @@ export class notifySDK {
             })
             return res.data
         } catch (error) {
-            this.handleError(error)
+            throw new LineNotifyError(this.errorMessage(error))
         }
     };
 
@@ -128,7 +128,7 @@ export class notifySDK {
             const res = await axios.post(`${this.apiBaseURI}/notify`, form, { headers: headers })
             return res.data as unknown as NotifyResponse
         } catch (error) {
-            this.handleError(error)
+            throw new LineNotifyError(this.errorMessage(error))
         }
     };
 

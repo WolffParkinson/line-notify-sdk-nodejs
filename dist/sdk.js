@@ -27,15 +27,15 @@ class notifySDK {
             throw new error_1.LineNotifyError('Credentials undefined');
         }
     }
-    handleError(error) {
+    errorMessage(error) {
         if (error.response) {
-            throw new error_1.LineNotifyError(error.response.data.message);
+            return error.response.data.message;
         }
         else if (error.request) {
-            throw new error_1.LineNotifyError('No response received from LINE servers');
+            return 'No response received from LINE servers';
         }
         else {
-            throw new error_1.LineNotifyError(error.message);
+            return error.message;
         }
     }
     generateOauthURL(state, formPost = false) {
@@ -67,7 +67,7 @@ class notifySDK {
                 return res.data.access_token;
             }
             catch (error) {
-                this.handleError(error);
+                throw new error_1.LineNotifyError(this.errorMessage(error));
             }
         });
     }
@@ -83,7 +83,7 @@ class notifySDK {
                 return res.data;
             }
             catch (error) {
-                this.handleError(error);
+                throw new error_1.LineNotifyError(this.errorMessage(error));
             }
         });
     }
@@ -102,7 +102,7 @@ class notifySDK {
                 return res.data;
             }
             catch (error) {
-                this.handleError(error);
+                throw new error_1.LineNotifyError(this.errorMessage(error));
             }
         });
     }
@@ -146,7 +146,7 @@ class notifySDK {
                 return res.data;
             }
             catch (error) {
-                this.handleError(error);
+                throw new error_1.LineNotifyError(this.errorMessage(error));
             }
         });
     }
