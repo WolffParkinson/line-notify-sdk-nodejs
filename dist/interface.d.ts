@@ -3,14 +3,14 @@ export interface SDKOptions {
     clientSecret?: string;
     redirectURI?: string;
 }
-declare enum TARGET_TYPE {
-    USER = 0,
-    GROUP = 1
+declare enum TargetType {
+    User = "user",
+    Group = "group"
 }
 export interface TokenStatus {
     status: 200 | 401;
     message: string;
-    targetType: TARGET_TYPE;
+    targetType: TargetType;
     target: string | 'null';
 }
 export interface NotifyResponse {
