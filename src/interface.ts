@@ -5,8 +5,8 @@ export interface SDKOptions {
 }
 
 enum TargetType {
-    User = 'user',
-    Group = 'group'
+    User = 'USER',
+    Group = 'GROUP'
 }
 
 export interface TokenStatus {

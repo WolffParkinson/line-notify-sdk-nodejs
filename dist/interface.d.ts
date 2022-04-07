@@ -4,8 +4,8 @@ export interface SDKOptions {
     redirectURI?: string;
 }
 declare enum TargetType {
-    User = "user",
-    Group = "group"
+    User = "USER",
+    Group = "GROUP"
 }
 export interface TokenStatus {
     status: 200 | 401;
